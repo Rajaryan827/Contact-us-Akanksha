@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 90%;
+            margin: 20px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form {
+            text-align: center;
+        }
+
+        .login-form .avatar {
+            width: 80px;
+            height: 80px;
+            background-color: #4285f4;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-form .avatar svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #4285f4;
+        }
+
+        .login-form button, .logout-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .login-form button:hover, .logout-button:hover {
+            background-color: #3367d6;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .register-link a {
+            color: #4285f4;
+            text-decoration: none;
+        }
+
+        /* Update the logout button styles */
+        .logout-button {
+            max-width: 200px;
+            margin: 20px auto;
+            display: block;
+            background-color: #dc3545;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+
+        .contact-group {
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wave-header {
+            background: linear-gradient(45deg, #4285f4, #34a853);
+            padding: 40px 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px 16px 0 0;
+            margin-top: 20px;
+        }
+
+        .wave-header h2 {
+            font-size: 2em;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23fff' fill-opacity='1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .date-group {
+            background: white;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-weight: 500;
+            color: #4285f4;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact {
+            background: white;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 12px;
+            transform-style: preserve-3d;
+            transform: perspective(1000px) translateZ(0);
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.1),
+                0 6px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact:hover {
+            transform: perspective(1000px) translateZ(20px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.2),
+                0 12px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact p {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact p strong {
+            min-width: 80px;
+            color: #666;
+        }
+
+        .contact-icon {
+            width: 20px;
+            height: 20px;
+            fill: #4285f4;
+        }
+
+        .reply-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #4285f4, #34a853);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reply-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .contact {
+                padding: 15px;
+            }
+
+            .wave-header {
+                padding: 30px 15px;
+            }
+
+            .contact p {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .contact p strong {
+                min-width: auto;
+            }
+        }
+
+        .logout-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .logout-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: white;
+            color: #4285f4;
+            border: 2px solid #4285f4;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #4285f4;
+            color: white;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+        }
+
+        .logout-button svg {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCco2X67PqDe_Mrfgy6WlzvKqDQJsVevoE",
+            authDomain: "ecommerce-638a3.firebaseapp.com",
+            databaseURL: "https://ecommerce-638a3-default-rtdb.firebaseio.com",
+            projectId: "ecommerce-638a3",
+            storageBucket: "ecommerce-638a3.appspot.com",
+            messagingSenderId: "990210313698",
+            appId: "1:990210313698:web:b73fd0b88f477edb47fdbb",
+            measurementId: "G-64WN7NPKYR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.querySelector(".container");
+            const loginForm = document.createElement("div");
+            loginForm.classList.add("login-form");
+
+            loginForm.innerHTML = `
+                <div class="avatar">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 4a4 4 0 014 4 4 4 0 01-4 4 4 4 0 01-4-4 4 4 0 014-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z"/>
+                    </svg>
+                </div>
+                <h1>Admin Login</h1>
+                <input type="email" id="email" placeholder="Enter Email" required />
+                <input type="password" id="password" placeholder="Enter Password" required />
+                <button id="login-btn">Sign In</button>
+                <div class="register-link">
+                    Need an account? <a href="#">Register</a>
+                </div>
+            `;
+
+            container.appendChild(loginForm);
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    loginForm.style.display = "none";
+                    loadContacts();
+                } else {
+                    loginForm.style.display = "block";
+                    container.innerHTML = "";
+                    container.appendChild(loginForm);
+                }
+            });
+
+            document.getElementById("login-btn").addEventListener("click", () => {
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+
+                signInWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        alert("Login successful");
+                    })
+                    .catch((error) => {
+                        alert("Login failed: " + error.message);
+                    });
+            });
+        });
+
+        function loadContacts() {
+            const container = document.querySelector(".container");
+            container.innerHTML = `
+                <div class="logout-container">
+                    <button class="logout-button">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                        </svg>
+                        Logout
+                    </button>
+                </div>
+                <div class="wave-header">
+                    <h2>Contact Requests</h2>
+                    <div class="wave"></div>
+                </div>
+            `;
+
+            // Add logout button functionality
+            const logoutBtn = container.querySelector('.logout-button');
+            logoutBtn.addEventListener("click", () => {
+                signOut(auth).then(() => {
+                    location.reload();
+                }).catch(error => {
+                    alert("Logout failed: " + error.message);
+                });
+            });
+
+            const contactsRef = ref(db, 'contacts');
+            onValue(contactsRef, (snapshot) => {
+                const data = snapshot.val();
+                const groupedByDate = {};
+
+                for (const key in data) {
+                    const contact = data[key];
+                    const date = new Date(contact.timestamp).toLocaleDateString();
+                    const time = new Date(contact.timestamp).toLocaleTimeString();
+
+                    if (!groupedByDate[date]) groupedByDate[date] = [];
+                    groupedByDate[date].push({ ...contact, time });
+                }
+
+                const contactsContainer = document.createElement('div');
+                Object.keys(groupedByDate)
+                    .sort((a, b) => new Date(b) - new Date(a))
+                    .forEach(date => {
+                        const dateGroup = document.createElement("div");
+                        dateGroup.classList.add("contact-group");
+                        dateGroup.innerHTML = `<div class='date-group'>📅 ${date}</div>`;
+
+                        groupedByDate[date]
+                            .sort((a, b) => new Date(`1970/01/01 ${b.time}`) - new Date(`1970/01/01 ${a.time}`))
+                            .forEach(contact => {
+                                const contactDiv = document.createElement("div");
+                                contactDiv.classList.add("contact");
+
+                                contactDiv.innerHTML = `
+                                    <p>
+                                        <svg class="contact-icon" viewBox="0 0 24 24">
+                                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                        </svg>
+                                        <strong>Name:</strong> ${contact.name}
+                                    </p>
+                                    <p>
+                                        <svg class="contact-icon" viewBox="0 0 24 24">
+                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                        </svg>
+                                        <strong>Email:</strong> ${contact.email}
+                                    </p>
+                                    <p>
+                                        <svg class="contact-icon" viewBox="0 0 24 24">
+                                            <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                                        </svg>
+                                        <strong>Message:</strong> ${contact.message}
+                                    </p>
+                                    <p>
+                                        <svg class="contact-icon" viewBox="0 0 24 24">
+                                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                                        </svg>
+                                        <strong>Time:</strong> ${contact.time}
+                                    </p>
+                                    <a href="mailto:${contact.email}" class="reply-button">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                            <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
+                                        </svg>
+                                        Reply
+                                    </a>
+                                `;
+
+                                dateGroup.appendChild(contactDiv);
+                            });
+
+                        contactsContainer.appendChild(dateGroup);
+                    });
+
+                container.appendChild(contactsContainer);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+       
+    </div>
+</body>
+</html>
